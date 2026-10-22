@@ -63,14 +63,16 @@ Computed from training pool using log1p tercile boundaries:
 
 ## bsr_bucket
 
+**Input**: BSR percentile (0-100). If source provides absolute rank, convert to percentile first.
+
 | Value | BSR Percentile |
 |-------|---------------|
-| `Best Seller` | Top 1% |
-| `热销` | Top 1-10% |
-| `中等` | Top 10-50% |
-| `中下` | Top 50-80% |
-| `长尾` | Top 80-95% |
-| `极长尾` | Bottom 5% |
+| `Best Seller` | Top 1% (≤1) |
+| `热销` | Top 1-10% (≤10) |
+| `中等` | Top 10-50% (≤50) |
+| `中下` | Top 50-80% (≤80) |
+| `长尾` | Top 80-95% (≤95) |
+| `极长尾` | Bottom 5% (>95) |
 | `未知` | BSR = 0 or null |
 
 ## inventory_status

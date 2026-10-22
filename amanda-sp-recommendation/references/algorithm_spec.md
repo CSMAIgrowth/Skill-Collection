@@ -45,10 +45,10 @@ query(features, target_type)
 ├─ Step 5: Final Stratum + Rank
 │  Recompute y_rank with final merge_level.
 │
-│  Y formula by targetType:
-│    tt=1 (sales growth): Y = 0.7·rank(sales) + 0.3·mean(rank(imp),rank(cvr),rank(ctr))
-│    tt=2 (cost control): Y = 0.7·rank(-ACOS) + 0.3·rank(sales)
-│    tt=3 (activity):     Y = 0.7·rank(sales) + 0.3·mean(rank(imp),rank(cvr))
+│  Y formula by targetType (1=imitation/跟卖型, 2=differentiation/差异型):
+│    tt=1 (imitation):     Y = 0.7·rank(sales) + 0.3·mean(rank(imp),rank(cvr),rank(ctr))
+│    tt=2 (differentiation): Y = 0.7·rank(-ACOS) + 0.3·rank(sales)
+│    tt=3 (activity/冲量):  Y = 0.7·rank(sales) + 0.3·mean(rank(imp),rank(cvr))
 │
 ├─ Step 6: Noise Qualification Test
 │  For each of 13 whitelist params independently:

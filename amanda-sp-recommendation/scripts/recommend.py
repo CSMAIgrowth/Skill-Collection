@@ -68,9 +68,14 @@ NEG_TARGET_MAP = {0: 'Off', 1: 'On', 3: '待确认'}
 # ==================== 分箱函数 ====================
 
 def assign_bsr_bucket(bsr):
-    """BSR 排名分箱 (百分位)"""
+    """BSR 排名分箱 (输入必须为百分位 0-100, 非绝对排名)
+    如输入为绝对排名, 需先通过品类大小转换为百分位后再传入。
+    """
     if bsr is None or bsr == 0:
         return '未知'
+    # 百分位校验: 若输入 > 100 则可能是绝对排名而非百分位
+    if bsr > 100:
+        return '未知'  # 超出百分位范围, 需先转换
     if bsr <= 1:       return 'Best Seller'
     if bsr <= 10:      return '热销'
     if bsr <= 50:      return '中等'
@@ -268,12 +273,32 @@ def normalize_recommended_value(param, raw_val):
 
 
 def extract_current_params(group):
-    """从托管组配置中提取 13 个推荐参数的当前值"""
+    """
+    从托管组配置中提取 13 个推荐参数的当前值。
+
+    返回: (params_dict, missing_fields_list)
+    - params_dict: 参数名 -> 当前值 (None 表示该参数缺失)
+    - missing_fields: 缺失的关键字段列表
+    """
     params = {}
+    missing_fields = []
     settings = group.get('aiActionSettings', {})
 
-    params['acos_bin'] = acos_to_bin(group.get('targetAcos', 30))
-    params['aiPersonality'] = PERSONALITY_MAP.get(group.get('aiPersonality', 3), 'Balanced')
+    # targetAcos: 缺失时不默认, 标记为缺失
+    raw_acos = group.get('targetAcos')
+    if raw_acos is not None and raw_acos != 0:
+        params['acos_bin'] = acos_to_bin(raw_acos)
+    else:
+        params['acos_bin'] = None
+        missing_fields.append('targetAcos')
+
+    # aiPersonality: 缺失时不默认, 标记为缺失
+    raw_personality = group.get('aiPersonality')
+    if raw_personality is not None and raw_personality != 0:
+        params['aiPersonality'] = PERSONALITY_MAP.get(raw_personality, str(raw_personality))
+    else:
+        params['aiPersonality'] = None
+        missing_fields.append('aiPersonality')
 
     for param_name in WHITELIST_PARAMS:
         if param_name in ('acos_bin', 'aiPersonality'):
@@ -284,9 +309,11 @@ def extract_current_params(group):
                 params[param_name] = NEG_TARGET_MAP.get(val, 'Off')
             else:
                 params[param_name] = PARAM_VALUE_MAP.get(val, 'Off')
-        # 参数不存在于 settings 中 → 不加入 params (SP 组通常拥有全部 13 参数)
+        else:
+            params[param_name] = None
+        # 参数不存在于 settings 中 → 值为 None (SP 组通常拥有全部 13 参数)
 
-    return params
+    return params, missing_fields
 
 
 # ==================== 主分析 ====================
@@ -328,10 +355,14 @@ def analyze_group(engine, group, asin_info, marketplace_id, budget_terciles):
             print(f"      {f} = {display}")
 
     # 2. 提取当前参数
-    current_params = extract_current_params(group)
+    current_params, missing_fields = extract_current_params(group)
+    if missing_fields:
+        print(f"\n  ⚠ Missing config fields: {missing_fields}")
+        print(f"    Recommendations for params with missing current values will be skipped.")
     print(f"\n  Current 13 params:")
     for p, v in current_params.items():
-        print(f"      {p} = {v}")
+        display = v if v is not None else '(missing)'
+        print(f"      {p} = {display}")
 
     # 3. 运行引擎
     query_features = {k: v for k, v in features.items()
@@ -396,7 +427,10 @@ def analyze_group(engine, group, asin_info, marketplace_id, budget_terciles):
 
             print(f"    {param:<30} {display_current:<15} {rec_val:<15} {sig:<10} {conf:<8.3f} {lift:<8.4f} {match}")
 
-            if current_val is not None and str(current_val) != str(rec_val) and sig in ('显著', '边缘'):
+            # Fix #5: enforce lift thresholds per SKILL.md spec
+            # 显著: lift > 0.1; 边缘: lift > 0.05
+            lift_pass = (sig == '显著' and lift > 0.1) or (sig == '边缘' and lift > 0.05)
+            if current_val is not None and str(current_val) != str(rec_val) and lift_pass:
                 recommendations.append({
                     'param': param,
                     'current': current_val,
@@ -442,18 +476,27 @@ def run_recommendation(groups, asins, marketplace_id, model_path, output_path=No
     """
     # Filter: SP only — SB/SD not supported
     sp_groups = [g for g in groups if g.get('campaignType', '') == 'sponsoredProducts']
-    skipped = len(groups) - len(sp_groups)
-    if skipped > 0:
-        print(f"  [Filter] Skipped {skipped} non-SP group(s) (SB/SD not supported)")
+    skipped_type = len(groups) - len(sp_groups)
+    if skipped_type > 0:
+        print(f"  [Filter] Skipped {skipped_type} non-SP group(s) (SB/SD not supported)")
 
-    if not sp_groups:
-        print("  [Error] No SP groups found. This skill only supports Sponsored Products.")
+    # Fix #6: filter running status — only analyze aiStatus=1 (active) groups
+    active_groups = [g for g in sp_groups if g.get('aiStatus') == 1]
+    skipped_status = len(sp_groups) - len(active_groups)
+    if skipped_status > 0:
+        print(f"  [Filter] Skipped {skipped_status} inactive SP group(s) (aiStatus != 1)")
+
+    if not active_groups:
+        if not sp_groups:
+            print("  [Error] No SP groups found. This skill only supports Sponsored Products.")
+        else:
+            print("  [Error] No active SP groups found (all have aiStatus != 1).")
         return []
 
     print("=" * 70)
     print("  Skill Extraction - SP Managed Group Recommendation Analysis")
     print(f"  Marketplace: {marketplace_id}")
-    print(f"  SP Groups to analyze: {len(sp_groups)}")
+    print(f"  SP Groups to analyze: {len(active_groups)}")
     print("=" * 70)
 
     # 1. 加载引擎
@@ -461,7 +504,7 @@ def run_recommendation(groups, asins, marketplace_id, model_path, output_path=No
 
     # 2. 逐个分析
     all_results = []
-    for group in sp_groups:
+    for group in active_groups:
         asin = group.get('asin', '')
         asin_info = asins.get(asin, {})
         result = analyze_group(engine, group, asin_info, marketplace_id, budget_terciles)
@@ -481,13 +524,16 @@ def run_recommendation(groups, asins, marketplace_id, model_path, output_path=No
         print(f"\n  Group: {r['group_name']} (ID: {r['group_id']})")
         print(f"  ASIN: {r['asin']} | TT: {r['target_type']} | Status: {r['status']} | Pool: {r['pool_n']}")
 
-        if r['recommendations']:
+        # Fix #4: distinguish INSUFFICIENT / no-qualifying / config-match
+        if r['status'] == 'INSUFFICIENT' or r['pool_n'] < 30:
+            print(f"  ⚠ Insufficient data (pool_n={r['pool_n']}) — cannot provide reliable recommendations")
+        elif r['recommendations']:
             print(f"  Recommendations ({len(r['recommendations'])}):")
             for rec in r['recommendations']:
                 print(f"    - {rec['action']}")
                 print(f"      sig={rec['significance']}, conf={rec['confidence']:.3f}, lift={rec['lift']:.4f}")
         else:
-            print(f"  Current config matches recommendation, no changes needed")
+            print(f"  ✓ No qualifying recommendations (config aligns with top-performing peers, or lift below threshold)")
 
     # 4. 保存报告
     if output_path:

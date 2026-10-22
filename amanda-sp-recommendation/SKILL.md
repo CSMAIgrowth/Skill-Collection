@@ -137,7 +137,7 @@ python scripts/recommend.py \
 | `lifecycle_stage` | asinOpenDate | <180天=新品冷启动, 180-364=新品成长, 1-2年=成长期, 2-3年=成熟期, ≥3年=老品 |
 | `category_l1` | asinTitle 关键词 | mount/bracket/holder→Home, pet/grooming→Pet Supplies, 其他→General |
 | `inventory_status` | FBA+FBM库存 | ≥100=冗余, ≥50=充足, ≥20=适中, <20=紧张, 0=缺货 |
-| `bsr_bucket` | asinBsr | ≤1%=Best Seller, ≤10%=热销, ≤50%=中等, ≤80%=中下, ≤95%=长尾, >95%=极长尾 |
+| `bsr_bucket` | asinBsr (百分位 0-100) | ≤1%=Best Seller, ≤10%=热销, ≤50%=中等, ≤80%=中下, ≤95%=长尾, >95%=极长尾 |
 | `campaign_budget_bucket` | totalDailyBudget | log1p 三分位 (复用训练集边界) |
 | `marketplace_id` | countryCode | 直接映射 |
 
@@ -187,6 +187,7 @@ python scripts/recommend.py \
 
 | 文件 | 内容 |
 |------|------|
+| [REGISTRATION.md](REGISTRATION.md) | Skill 登记卡 (版本、依赖、限制、验收状态) |
 | [references/feature_definitions.md](references/feature_definitions.md) | Tier 0-3 特征定义、分箱规则、输入 JSON 格式 |
 | [references/algorithm_spec.md](references/algorithm_spec.md) | v9.1 引擎精简算法规格 |
 | [references/value-mapping.md](references/value-mapping.md) | 原始值→可读值映射表 (On/Off, personality, bsr, etc.) |

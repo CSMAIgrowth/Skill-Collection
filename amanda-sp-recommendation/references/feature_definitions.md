@@ -37,7 +37,7 @@ Relaxed before Tier 1. Order: peak_seasons → variation → trend_sales → tre
 | `trend_sales_bin` | 14-day daily sales trend | `up`, `mid`, `down` — **requires daily time series, usually None** |
 | `trend_imp_bin` | 14-day daily impressions trend | `up`, `mid`, `down` — **requires daily time series, usually None** |
 | `inventory_status` | `asinFbaQuantity` + `asinFbmQuantity` | ≥100=冗余, ≥50=充足, ≥20=适中, <20=紧张, 0=缺货/无数据 |
-| `bsr_bucket` | `asinBsr` (percentile) | ≤1%=Best Seller, ≤10%=热销, ≤50%=中等, ≤80%=中下, ≤95%=长尾, >95%=极长尾 |
+| `bsr_bucket` | `asinBsr` (percentile, 0-100) | ≤1%=Best Seller, ≤10%=热销, ≤50%=中等, ≤80%=中下, ≤95%=长尾, >95%=极长尾 **注意: 输入必须为 0-100 百分位, 非绝对排名** |
 | `campaign_budget_bucket` | `totalDailyBudget` | log1p terciles from training pool: low/mid/high (boundaries computed at load time) |
 | `b14_ACOS_bin` | 14-day ACOS | <15%=low, 15-25%=mid, 25-35%=high, ≥35%=high — **requires ASIN-level perf, usually None** |
 | `b14_CTR_bin` | 14-day CTR | ≥1.0%=high, 0.3-1.0%=mid, <0.3%=low — **requires ASIN-level perf, usually None** |
@@ -91,7 +91,7 @@ Relaxed first (lowest priority). Order: peak_month → b14_CVR → b14_CPC → t
 
 **Field notes:**
 - `campaignType`: Only `sponsoredProducts` is supported. SB/SD groups are filtered out.
-- `targetType`: 1=imitation, 2=differentiation
+- `targetType`: 1=imitation (跟卖型), 2=differentiation (差异型)
 - `aiPersonality`: 1=Conservative, 2=Moderate, 3=Balanced, 4=Aggressive, 5=Very Aggressive
 - `aiActionSettings` values: 0=Off, 1=On. SP groups have all 11 On/Off params.
 
@@ -101,7 +101,7 @@ Relaxed first (lowest priority). Order: peak_month → b14_CVR → b14_CPC → t
 {
   "B0XXXXXXXX": {
     "asinPrice": 16.99,
-    "asinBsr": 215,
+    "asinBsr": 85,
     "asinInventoryStatus": "Active",
     "asinFbaQuantity": 226,
     "asinFbmQuantity": 0,
@@ -119,7 +119,7 @@ Relaxed first (lowest priority). Order: peak_month → b14_CVR → b14_CPC → t
 - `lifecycle_stage` — from ASIN open date
 - `category_l1` — from ASIN title keyword matching
 - `inventory_status` — from FBA/FBM quantity
-- `bsr_bucket` — from ASIN BSR percentile
+- `bsr_bucket` — from ASIN BSR **percentile** (0-100; if source provides absolute rank, convert to percentile first using category size)
 - `campaign_budget_bucket` — from group daily budget
 - `marketplace_id` — from store country code
 
