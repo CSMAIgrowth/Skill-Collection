@@ -1,5 +1,5 @@
 ---
-name: sparkx-skill-recommendation
+name: amanda-sp-recommendation
 description: 'Analyze running SP (Sponsored Products) AI managed groups and recommend configuration adjustments using the Skill Extraction v9.1 engine. Reads store data via MCP (managed groups, ASINs, performance), extracts Tier 0-3 features, queries the recommendation engine, and outputs actionable parameter adjustments. SP only — not for SB/SD groups. Use when the user asks "托管组怎么调", "推荐配置", "skill recommendation", "managed group adjustment", "分析我的托管组", "帮我看看配置". Not for creating new managed groups (use sparkx-create-ai-group) or editing ads directly (use sparkx-edit-ai-group).'
 metadata:
   version: 1.1.0
