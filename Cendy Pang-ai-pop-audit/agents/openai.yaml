@@ -1,0 +1,7 @@
+interface:
+  display_name: "SparkX AI POP 托管审核"
+  short_description: "分步生成精简POP评级Excel或托管共性问题文档"
+  default_prompt: "使用 $sparkx-ai-pop-audit 给我出份AI POP报告和优化建议；本次只生成三张表的Excel审核报告。"
+
+policy:
+  allow_implicit_invocation: true
