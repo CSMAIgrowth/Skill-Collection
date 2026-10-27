@@ -50,9 +50,36 @@ CallMcpTool: get_entity_metadata
 提取每个 SP 托管组的关键信息:
 - `aiGroupId`, `aiGroupName`, `targetType`
 - `targetAcos`, `aiPersonality`, `totalDailyBudget`
+- `aiStatus` (必须为 1, 脚本会过滤非运行中的组)
 - `aiActionSettings` 内的全部 11 个 On/Off 参数 (0=Off, 1=On)
 
 > SP 组拥有完整的 13 参数空间 (含 bid 相关 3 个参数)。
+
+**⚠️ 组的 `asin` 字段必须额外反查** (aiGroup 元数据不返回组内 ASIN, 缺失时引擎的产品特征会全部退化为 None, 推荐将按 targetType+预算档一刀切)。
+
+两步反查 (SparkX AI 托管组的活动命名形如 `SparkX AI <组名>`):
+
+```
+// Step A: 按 aiGroupId 取该组的广告活动 (campaign 实体支持 aiGroupId 过滤)
+CallMcpTool: get_entity_metadata
+  entity: "campaign"
+  profileIds: [<选定的 profileId>]
+  filters: { "aiGroupId": 893922 }
+  select: ["campaignId", "campaignName", "aiGroupId"]
+  userContext: "反查AI托管组的广告活动"
+
+// Step B: 按活动取组内 ASIN (注意: productAd 不支持 aiGroupId 过滤, 必须走 campaignId)
+CallMcpTool: get_entity_metadata
+  entity: "productAd"
+  profileIds: [<选定的 profileId>]
+  filters: { "campaignId": { "in": [<Step A 返回的 campaignId 列表>] } }
+  select: ["asin", "campaignId", "adGroupId"]
+  userContext: "反查AI托管组内的ASIN"
+```
+
+将每组的主推/代表 ASIN 写入 groups.json 该组的 `asin` 字段, 并确保该 ASIN 也存在于 asins.json 中。多 ASIN 组选花费最高或销量最高的代表 ASIN, 引擎按单 ASIN 特征匹配。
+
+> 已实测验证 (2026-10-27, Nakkaa US): aiGroupId=893922 → campaign "SparkX AI NAS01318-KT-QYG" (campaignId 47323422) → productAd 返回 ASIN B0C2V5NM2J, 链路两跳可达。
 
 ### Step 3: 读取 ASIN 产品数据
 
