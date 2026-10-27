@@ -1,0 +1,4 @@
+interface:
+  display_name: "单 ASIN 广告结构分析"
+  short_description: "围绕单个商品诊断投放入口、成本与转化，定位增量和缩量机会并制定验证方案"
+  default_prompt: "请使用 $asin-ad-structure-analysis 分析指定 ASIN 的广告结构，判断哪里能增量、哪里要缩量，并给出验证方案。"
