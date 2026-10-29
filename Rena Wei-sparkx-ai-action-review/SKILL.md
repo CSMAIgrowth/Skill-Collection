@@ -3,7 +3,8 @@ name: sparkx-ai-action-review
 description: >-
   Review SparkX AI managed ads from initial AI goal setting through AI actions, human intervention, and later results. Test whether target ACOS was sustainable against longer history, then explain bids, negatives, daily budget, impressions, clicks, CPC, CVR, order mix, and confounders as dated cases. Use for AI 动作复盘、托管广告/托管组案例分析、曝光下降和客户能读懂的 AI 调整解释；not for a routine KPI report or changing live ads.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
+  updated: "2026-10-29"
 ---
 
 # SparkX AI 动作复盘
@@ -18,7 +19,7 @@ metadata:
 
 - **必需输入**：客户身份及要分析的活动、托管组或可识别的范围；用户关注的变化或问题。若名称重复，先用站点、ID 等信息消歧。分析起止日和站点可由用户给出；未给时间时使用下述近 30 天默认窗口并明示。
 - **可选输入**：目标 ACOS、一级目标、AI 人格、促销/价格/库存背景、利润约束、希望的交付格式，以及用户已提供的操作记录。这些可帮助评价合理性，缺失时不得臆造。
-- **外部依赖**：目标客户已授权的 SparkX 只读数据连接，至少提供授权上下文、实体配置、广告表现与操作日志的等效查询能力；字段名称和分页规则以该连接实际文档为准。客户路由规则由运行环境提供，缺少路由或目标客户连接时先确认，不使用别的客户数据。报告文件可在获准的工作区生成；业务写入、发布和对外发送须另有明确请求与权限。
+- **外部依赖**：目标客户已授权的 SparkX 只读数据连接，至少提供授权上下文、实体配置、广告表现与操作日志的等效查询能力；字段命名、ID 双轨制、分页与日粒度限制的实测规则见[SparkX MCP 字段与调用实测笔记](references/sparkx-mcp-field-notes.md)，报错时以连接返回的可用字段清单为准。客户路由规则由运行环境提供，缺少路由或目标客户连接时先确认，不使用别的客户数据。报告文件可在获准的工作区生成；业务写入、发布和对外发送须另有明确请求与权限。
 
 ## 确定范围和权限
 
@@ -62,6 +63,7 @@ metadata:
 - 客户、站点或实体无法可靠确定时，先用可得元数据消歧；仍不明确则询问用户。授权不足或客户连接不存在时停止对应客户的数据查询，不借用其他客户数据。空结果先核对权限、实体、日期与过滤条件。
 - 查询报错时按连接返回的错误类型处理；可重试的临时错误最多重试两次，仍失败就列明缺口并停止相关结论。分页或操作日志被截断时继续取全；无法补齐时明确只覆盖已取得的部分。
 - 缺小时数据、历史设置快照、购买 ASIN 或算法触发特征时，可以分析已见证据和可能机制，但不能宣称已确定唯一原因或精确贡献率。近期归因未稳定时将结论标为待观察。
+- 已知环境限制（2026-10-29 实测）：该 SparkX MCP 的 `get_ads_perf` 设 `timeGranularity='daily'` 也不产出逐日行（无日期维度列）。逐日表现与逐日预算还原按[实测笔记](references/sparkx-mcp-field-notes.md)的降级路径执行：按动作节点切分日期区间分段查询 + 操作日志逐笔拼装预算链；日末值不代表全天额度，日志链断档时标注预算重建不完整。聚合查询分页信号弱，`rowCount==pageSize` 即续页，大账户逐页取全并写明实际覆盖范围。
 
 ## 测试样例
 
