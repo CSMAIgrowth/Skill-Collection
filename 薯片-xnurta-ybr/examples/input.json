@@ -1,0 +1,148 @@
+{
+  "synthetic": true,
+  "customer": "SYNTHETIC-YBR",
+  "currency": "USD",
+  "timezone": "UTC",
+  "attribution": "consistent synthetic monthly summaries",
+  "rows": [
+    {
+      "month": "2025-01",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-02",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-03",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-04",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-05",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-06",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-07",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-08",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-09",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-10",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-11",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    },
+    {
+      "month": "2025-12",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 100,
+      "ad_sales": 500,
+      "orders": 10,
+      "clicks": 100,
+      "ai_spend": 40,
+      "ai_ad_sales": 250
+    }
+  ],
+  "notes": {
+    "logs": null,
+    "store_sales": null,
+    "matched_asin": null,
+    "target": null,
+    "prior_year": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "synthetic": true,
+  "customer": "SYNTHETIC-A",
+  "currency": "USD",
+  "timezone": "UTC",
+  "attribution": "same synthetic window",
+  "rows": [
+    {
+      "period": "before",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 1000,
+      "ad_sales": 4000,
+      "orders": 80,
+      "clicks": 1000,
+      "ai_spend": 400,
+      "ai_ad_sales": 2000
+    },
+    {
+      "period": "after",
+      "store": "S1",
+      "campaign": "C1",
+      "spend": 900,
+      "ad_sales": 4500,
+      "orders": 90,
+      "clicks": 900,
+      "ai_spend": 450,
+      "ai_ad_sales": 2500
+    }
+  ],
+  "notes": {
+    "windows": "two equal 14-day windows; only synthetic",
+    "promotion": "after period has a promotion",
+    "logs": null,
+    "store_sales": null,
+    "matched_asin": null,
+    "target": null
+  }
+}

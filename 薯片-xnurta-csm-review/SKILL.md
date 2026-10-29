@@ -1,11 +1,19 @@
 ---
 name: xnurta-csm-review
-description: "用 SparkX AI MCP 取数，为客户生成或检查《SparkX 使用报告》和 AI 托管体检：AI 使用率与动作、AI 与人工表现、托管目标拆分、托管组问题活动排查、店铺 AI 分档、功能采纳盘点、AI 开了又关的客诉核查，并形成分店行动建议。CSM 说「出 SparkX 使用报告」「做 AI 托管体检」「客户说 AI 没效果帮我核一下」「续约前看看系统用得怎么样」时使用；报告结构与验收遵循 xnurta-report-standard。"
-compatibility: "需要已连接 SparkX AI MCP（https://mcp.sparkx.cn/mcp）并安装官方查询 Skills：sparkx-query-ads-performance、sparkx-query-entity-metadata、sparkx-query-operation-log。需要能运行代码做聚合计算。"
+description: "独立完成系统使用与AI托管复盘，内置报告标准、查询模块和证据验收。"
+compatibility: "能读文件和运行代码的agent；授权导出或SparkX AI MCP任选其一。"
 metadata:
-  version: "0.1.0"
-  author: "薯片（Xnurta CSM 团队 agent）"
+  version: "0.2.0-bundle.1"
+  author: "薯片（原作）；土豆（组合重构）"
+  maturity: "candidate"
 ---
+# 系统使用与AI托管复盘：独立文件夹版
+## 唯一入口
+1. 先读 [统一规则](references/bundle-rules.md)、[数据契约](references/data-contract.md)。
+2. 实时查询时读 [内置查询模块](references/query-guide.md)，授权导出按同一契约分析。三份查询文档及其全部引用均已随包提供，不另装skill。
+3. 必须读 [内置报告标准](references/report-standard.md) 和 [验收清单](references/quality-check.md)。采用内置 [五章蓝图](references/report-blueprint.md)。
+4. 按下文方法产出报告、计算证据、缺口和行动表；历史文字中的外部查询/标准引用均解析到本包。
+5. 运行 [合成验收](examples/acceptance.md)，记录真实结果；合成数据不证明真实业务可用。见 [来源与变更](references/provenance.md)。
 
 # SparkX 使用报告与 AI 托管体检（MCP 版）
 
@@ -33,8 +41,8 @@ metadata:
 
 ## 依赖与权限
 
-- **必需**：SparkX AI MCP，以及官方仓库 https://github.com/SparkXAI/SparkXAI-MCP 的三个查询 Skill（按 2026-10-22 manifest，release v1.3.4 编写；字段和参数以官方 Skill 为准）。
-- **配套技能**：`xnurta-report-standard`（同批提交）。
+- **输入方式**：已授权导出或实时SparkX AI MCP。查询方法全部内置，见 references/query-guide.md。
+- **报告标准已内置**：references/report-standard.md、report-blueprint.md、quality-check.md。
 - **可选**：卖家精灵、SIF 等外部市场工具，使用时注明来源和日期。
 - **权限**：只读查询 + 生成报告文件。不写广告系统、不对外发送、不扩大文档权限。MCP 数据只用于当前客户。
 
@@ -48,13 +56,13 @@ metadata:
 | 分析项 | 怎么取 | 口径 |
 |---|---|---|
 | AI 花费占比、AI 销售占比 | `get_ads_perf` campaign 实体，取 `Spend` `Sales` `AISpend` `AISales` | 占比 = ΣAI ÷ Σ总量；这是花费占比，不等于"配置开启率" |
-| AI 开启率（活动口径） | campaign 实体加 aiGroup 维度，数"挂在在跑托管组下的活动数 ÷ 有花费活动数" | 写明分母是"有花费的活动" |
+| AI 开启率（活动口径） | campaign 实体加 aiGroup 维度，数"同一评估范围内有花费且按指定快照在跑托管组下的活动数 ÷ 有花费活动数" | 写明分母是"有花费的活动" |
 | AI 与人工五指标环比 | 两期各取一次，AI 侧用 `AISpend`/`AISales`，人工侧 = 总量 − AI 侧 | 花费、订单、销售、转化率、ACOS；比率重算 |
 | 托管目标拆分（推动增长 / 保持稳定 / 活动冲量） | campaign 实体加 `aiGroup.aiTargetType_` 维度 | 1=推动增长、2=保持订单稳定、3=活动冲量（以官方 Skill 当前枚举为准） |
 | 托管组达标率 | 按 aiGroup 维度算实际 ACOS，对比 `aiGroup.targetAcos_` | 分母 = 在跑且本期有花费的组 |
 | 问题活动排查 | campaign 实体两期对比，筛"花费明显、销售大幅下降"的活动 | 阈值按客户体量定，并写在报告里；只是筛查线索 |
 | 店铺 AI 分档 | campaign 实体按店铺聚合 AI 花费占比 | 分档阈值写明；0 分母单列 |
-| 托管组配置、行动空间 | `get_entity_metadata` entity=`aiGroup` | 当前快照；字段缺失 = 当前未生效 |
+| 托管组配置、行动空间 | `get_entity_metadata` entity=`aiGroup` | 当前快照；字段缺失先核对schema，未明确省略规则则为未知 |
 | AI 动作与人工变更 | `get_operation_log` 分 AI / 人工计数和时间线 | 截断时拆日期或标"部分记录" |
 | AI 开关时间线 | aiGroup 维度的最近开启 / 关闭日期 + 操作日志 | 用于客诉核查 |
 | 产品线 | `get_entity_metadata` entity=`asin`（产品线信息嵌在其中） | 其余功能（词库、标签、模板、通知、看板）在前台清点 |
@@ -64,12 +72,12 @@ metadata:
 ### 3. 解读
 按 [references/03-interpretation-playbook.md](references/03-interpretation-playbook.md) 把数字翻译成结论和动作，并遵守以下规则：
 - **AI 与人工**：先给全量，再给同店、同 ASIN、同期、同广告类型的比较；写明样本规模和筛选条件，不利样本也保留。观察性比较不能写成因果。
-- **目标与配置**：推动增长组看预算是否不足、花费是否下降；保持稳定组看目标 ACOS 是否过严（目标明显低于实际时，AI 只能压价压量）。
+- **目标与配置**：推动增长组看预算是否不足、花费是否下降；保持稳定组看目标 ACOS 是否过严（目标明显低于实际时是可能约束，需配置、日志及商品证据验证）。
 - **销售下降**：按预算 / 竞价 / 否词变化、目标变化、断货或 Listing、广告位、转化逐项查时间证据；没有证据的原因写"待验证"。
 - **开关 AI 客诉**：开启期与关闭期的对比是观察性前后比较，受季节、促销、预算影响；给出数据和受控验证方案，不说"证明客户误判"。
 
 ### 4. 写报告（五章）
-按 `xnurta-report-standard` 的五章结构写。本技能的维度放法：
+按 本包 `references/report-standard.md` 的五章结构写。本技能的维度放法：
 - 一、老板一页摘要：AI 使用与效果的一句话结论、核心指标、三条重点。
 - 二、分店 / AI 使用与同款比较：AI 使用率、动作、AI 与人工、目标拆分、店铺分档、达标率。
 - 三、市场与旺季：有外部数据就写；没有就写账户自身历史，并标"市场数据未取得"。
@@ -79,7 +87,7 @@ metadata:
 维度写法和话术模板见 [references/01-report-structure.md](references/01-report-structure.md)。文末附数据说明。
 
 ### 5. 交付前验收
-按 `xnurta-report-standard` 的验收清单自查；在线文档写入后回读检查。
+按 本包 `references/report-standard.md` 的验收清单自查；在线文档写入后回读检查。
 
 ## 输出
 
@@ -98,7 +106,7 @@ metadata:
 
 ## 异常与已知限制
 
-- **MCP 未连接或无授权店铺**：停止，请用户先完成 MCP 配置。
+- **MCP不可用**：停止实时取数；若用户有授权导出，按本包数据契约继续。无数据时询问必要输入，不拿样例代替。
 - **账号活跃和功能使用数据**：MCP 没有，只能用前台数据或用户提供；没有就写缺口，不推断"没人用"。
 - **跨客户大盘基准**：MCP 不提供；没有公司认可的基准就不写"高于 / 低于大盘"。
 - **托管组配置**：只有当前快照，历史变化靠操作日志。
@@ -111,4 +119,4 @@ metadata:
 - **自然提问**：「客户说 6 月开了 AI 效果差就关了，帮我核一下」。
   - **预期**：拉开关时间线，对比开启期和关闭期的聚合 ACOS、CVR、CPC，给出观察性结论和受控验证方案。
 - **不应触发**：「帮我把这几个托管组的目标 ACOS 改成 25%」，这是写操作，应使用官方 `sparkx-edit-ai-group`。
-- **测试状态**：本版本（0.1.0）把数据源从内部数据库改为 SparkX AI MCP，**未测试，实际输出待补**。
+- **测试状态**：来源版本的MCP真实客户路径未验证；本组合版的合成执行回执随交付包提供，不能替代真实授权、接口及前台对账。
