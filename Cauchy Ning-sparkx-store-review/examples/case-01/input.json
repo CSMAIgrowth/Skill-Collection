@@ -1,0 +1,356 @@
+{
+  "client": "示例品牌（合成数据）",
+  "title": "4 月广告复盘",
+  "prior": "2026-03-01 至 2026-03-31",
+  "current": "2026-04-01 至 2026-04-30",
+  "currency": "USD",
+  "conclusions": [
+    "本期广告花费增加 $135。增投主要集中在美国站水槽保护垫，花费增加 $160，其余品线合计减少 $25。",
+    "ACOS 从 21.97% 升至 23.74%。CPC 上升、转化率下降，广告客单价上升抵消了部分影响。"
+  ],
+  "account": [
+    {
+      "spend": 760,
+      "sales": 3460,
+      "clicks": 1710,
+      "orders": 173,
+      "totalSales": 8100
+    },
+    {
+      "spend": 895,
+      "sales": 3770,
+      "clicks": 1885,
+      "orders": 180,
+      "totalSales": 8760
+    }
+  ],
+  "sites": [
+    {
+      "id": "us",
+      "name": "美国站",
+      "metrics": [
+        {
+          "spend": 520,
+          "sales": 2500,
+          "clicks": 1100,
+          "orders": 125
+        },
+        {
+          "spend": 660,
+          "sales": 2750,
+          "clicks": 1280,
+          "orders": 129
+        }
+      ],
+      "stores": [
+        {
+          "name": "示例美国店",
+          "metrics": [
+            {
+              "spend": 520,
+              "sales": 2500,
+              "clicks": 1100,
+              "orders": 125
+            },
+            {
+              "spend": 660,
+              "sales": 2750,
+              "clicks": 1280,
+              "orders": 129
+            }
+          ],
+          "lines": [
+            {
+              "name": "水槽保护垫",
+              "metrics": [
+                {
+                  "spend": 400,
+                  "sales": 2000,
+                  "clicks": 800,
+                  "orders": 100
+                },
+                {
+                  "spend": 560,
+                  "sales": 2200,
+                  "clicks": 1000,
+                  "orders": 102
+                }
+              ],
+              "types": [
+                {
+                  "name": "SP-精准",
+                  "metrics": [
+                    {
+                      "spend": 230,
+                      "sales": 1200,
+                      "clicks": 430,
+                      "orders": 62
+                    },
+                    {
+                      "spend": 350,
+                      "sales": 1440,
+                      "clicks": 610,
+                      "orders": 64
+                    }
+                  ]
+                },
+                {
+                  "name": "SP-商品定向",
+                  "metrics": [
+                    {
+                      "spend": 115,
+                      "sales": 560,
+                      "clicks": 270,
+                      "orders": 28
+                    },
+                    {
+                      "spend": 155,
+                      "sales": 560,
+                      "clicks": 280,
+                      "orders": 29
+                    }
+                  ]
+                },
+                {
+                  "name": "SD",
+                  "metrics": [
+                    {
+                      "spend": 55,
+                      "sales": 240,
+                      "clicks": 100,
+                      "orders": 10
+                    },
+                    {
+                      "spend": 55,
+                      "sales": 200,
+                      "clicks": 110,
+                      "orders": 9
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "置物架",
+              "metrics": [
+                {
+                  "spend": 120,
+                  "sales": 500,
+                  "clicks": 300,
+                  "orders": 25
+                },
+                {
+                  "spend": 100,
+                  "sales": 550,
+                  "clicks": 280,
+                  "orders": 27
+                }
+              ],
+              "types": [
+                {
+                  "name": "SP-自动",
+                  "metrics": [
+                    {
+                      "spend": 120,
+                      "sales": 500,
+                      "clicks": 300,
+                      "orders": 25
+                    },
+                    {
+                      "spend": 100,
+                      "sales": 550,
+                      "clicks": 280,
+                      "orders": 27
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ca",
+      "name": "加拿大站",
+      "metrics": [
+        {
+          "spend": 240,
+          "sales": 960,
+          "clicks": 610,
+          "orders": 48
+        },
+        {
+          "spend": 235,
+          "sales": 1020,
+          "clicks": 605,
+          "orders": 51
+        }
+      ],
+      "stores": [
+        {
+          "name": "示例加拿大店",
+          "metrics": [
+            {
+              "spend": 240,
+              "sales": 960,
+              "clicks": 610,
+              "orders": 48
+            },
+            {
+              "spend": 235,
+              "sales": 1020,
+              "clicks": 605,
+              "orders": 51
+            }
+          ],
+          "lines": [
+            {
+              "name": "水槽保护垫",
+              "metrics": [
+                {
+                  "spend": 150,
+                  "sales": 600,
+                  "clicks": 360,
+                  "orders": 30
+                },
+                {
+                  "spend": 160,
+                  "sales": 680,
+                  "clicks": 400,
+                  "orders": 34
+                }
+              ],
+              "types": [
+                {
+                  "name": "SP-词组",
+                  "metrics": [
+                    {
+                      "spend": 150,
+                      "sales": 600,
+                      "clicks": 360,
+                      "orders": 30
+                    },
+                    {
+                      "spend": 160,
+                      "sales": 680,
+                      "clicks": 400,
+                      "orders": 34
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "厨房布巾",
+              "metrics": [
+                {
+                  "spend": 90,
+                  "sales": 360,
+                  "clicks": 250,
+                  "orders": 18
+                },
+                {
+                  "spend": 75,
+                  "sales": 340,
+                  "clicks": 205,
+                  "orders": 17
+                }
+              ],
+              "types": [
+                {
+                  "name": "SP-宽泛",
+                  "metrics": [
+                    {
+                      "spend": 90,
+                      "sales": 360,
+                      "clicks": 250,
+                      "orders": 18
+                    },
+                    {
+                      "spend": 75,
+                      "sales": 340,
+                      "clicks": 205,
+                      "orders": 17
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "parents": [
+    {
+      "asin": "DEMO000002",
+      "site": "us",
+      "store": "示例美国店",
+      "line": "置物架",
+      "metrics": [
+        {
+          "spend": 40,
+          "sales": 200,
+          "clicks": 100,
+          "orders": 10
+        },
+        {
+          "spend": 45,
+          "sales": 180,
+          "clicks": 115,
+          "orders": 8
+        }
+      ],
+      "headline": "品线改善，部分商品转化下降",
+      "reason": "品线整体 ACOS 从 24.00% 降至 18.18%，但该父体 ACOS 从 20.00% 升至 25.00%，广告订单从 10 降至 8。",
+      "next": "检查原先出单的搜索词和商品定向，两期点击及订单是否出现背离。"
+    },
+    {
+      "asin": "DEMO000001",
+      "site": "us",
+      "store": "示例美国店",
+      "line": "水槽保护垫",
+      "metrics": [
+        {
+          "spend": 250,
+          "sales": 1250,
+          "clicks": 500,
+          "orders": 63
+        },
+        {
+          "spend": 380,
+          "sales": 1400,
+          "clicks": 660,
+          "orders": 66
+        }
+      ],
+      "headline": "主力商品增投，效率下滑",
+      "reason": "花费增加 $130，ACOS 从 20.00% 升至 27.14%。CPC 上升，同时转化率从 12.60% 降至 10.00%。",
+      "next": "核对增量主要来自哪些活动、广告位和定向，区分流量变贵与低转化流量占比上升。"
+    },
+    {
+      "asin": "DEMO000003",
+      "site": "ca",
+      "store": "示例加拿大店",
+      "line": "水槽保护垫",
+      "metrics": [
+        {
+          "spend": 80,
+          "sales": 300,
+          "clicks": 180,
+          "orders": 15
+        },
+        {
+          "spend": 85,
+          "sales": 360,
+          "clicks": 200,
+          "orders": 18
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "本页全部为合成数据，商品标识均为虚构。示例按两个自然月对比，3 月 31 天、4 月 30 天。金额均为模拟 USD。"
+  ]
+}
