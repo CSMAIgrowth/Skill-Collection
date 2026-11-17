@@ -1,0 +1,4 @@
+interface:
+  display_name: "店铺广告复盘与重点父 ASIN"
+  short_description: "生成两期店铺广告复盘和优先关注父 ASIN 的交互式报告"
+  default_prompt: "使用 $sparkx-store-review，生成指定客户两期店铺大盘和重点父 ASIN 的 HTML 复盘。"

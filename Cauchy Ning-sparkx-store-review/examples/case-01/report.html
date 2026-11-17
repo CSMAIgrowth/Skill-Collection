@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>广告复盘</title><style>
+
+:root{--deep:#3f0069;--purple:#a04bfc;--pale:#f4eefd;--border:#e6d9fa;--muted:#665573}*{box-sizing:border-box}body{margin:0;background:#faf7ff;color:#2d2037;font:15px/1.65 "Microsoft YaHei",sans-serif}main{max-width:1280px;margin:auto;padding:24px}header{background:linear-gradient(115deg,#3f0069,#752cb0);color:white;padding:28px;border-radius:16px}h1{margin:0;font-size:32px}h2,h3,h4{margin:0 0 8px;color:var(--deep)}p{margin:8px 0}nav{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}nav a{padding:8px 17px;border:1px solid var(--border);background:white;border-radius:8px;color:var(--deep);text-decoration:none;font-weight:bold}nav a[aria-current]{background:var(--deep);color:white}section{background:white;border:1px solid var(--border);padding:19px;margin-bottom:15px;border-radius:12px}.call{border-left:5px solid var(--purple)}.grid,.line-grid,.mini{display:grid;gap:10px}.grid{grid-template-columns:repeat(auto-fit,minmax(165px,1fr))}.line-grid,.mini{grid-template-columns:repeat(2,minmax(0,1fr))}article,details{background:var(--pale);border:1px solid var(--border);padding:13px;border-radius:9px}article strong{display:block;font-size:22px;color:var(--deep)}small,footer,em{color:var(--muted);font-style:normal}details[open]{grid-column:1/-1}summary{cursor:pointer;color:var(--deep)}.mini{font-size:13px;margin-top:5px;color:#291a36}.action{background:white;padding:9px;border-radius:6px;margin:12px 0}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 12px}th,td{white-space:nowrap;padding:7px 9px;text-align:right;border:1px solid var(--border)}th:first-child{text-align:left}thead{background:var(--pale)}footer{font-size:13px}a:focus-visible,summary:focus-visible{outline:3px solid var(--purple);outline-offset:2px}@media(max-width:720px){main{padding:12px}.line-grid,.mini{grid-template-columns:1fr}header,section{padding:14px}h1{font-size:25px}}
+
+
+
+.line-grid{grid-template-columns:minmax(0,1fr)}.line-grid details{background:#fff;border-left:4px solid #a04bfc;padding:14px 18px}.line-grid summary>b{font-size:18px}.line-grid .mini{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:9px 0 0}.metric{border-top:1px solid var(--border);padding-top:7px;min-width:0}.metric strong{display:block;font-size:21px;color:var(--deep);font-variant-numeric:tabular-nums}.delta{font-weight:700}.good{color:#167353}.bad{color:#a63153}.neutral{color:#6a3d91}.bars{display:grid;gap:3px;margin-top:5px}.bars i{height:4px;border-radius:4px;background:#d9c6ec}.bars i+i{background:#8646ba}.sp-child th{color:#694187;padding-left:17px}.scope-note{font-size:12px;color:var(--muted)}@media(max-width:720px){.line-grid .mini{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.overview-breakdown .period-pair{font-variant-numeric:tabular-nums;color:var(--muted)}.overview-breakdown .period-pair strong{color:#291a36}.spend-change{text-align:right;font-variant-numeric:tabular-nums}.spend-change small{display:inline-block;margin-left:6px}.spend-change.in{color:#623397}.spend-change.out{color:#a04b61}.spend-track{height:5px;margin-top:4px;position:relative;background:#f6effb;border-radius:4px}.spend-track:before{content:"";position:absolute;left:50%;height:100%;border-left:1px solid #c5afda}.spend-track i{position:absolute;height:100%;border-radius:3px}.in .spend-track i{left:50%;background:#8750bd}.out .spend-track i{right:50%;background:#ba6580}.grid .kpi-change{display:block;margin-top:4px;font-size:14px;font-weight:700}.grid .kpi-change.good{color:#08734e}.grid .kpi-change.bad{color:#ad2345}.grid .kpi-change.neutral{color:#655573}.explorer-filters{display:flex;flex-wrap:wrap;align-items:end;gap:10px 16px;margin:12px 0}.explorer-filters label{display:grid;gap:4px;color:var(--deep);font-weight:bold}.explorer-filters select,.explorer-filters button{font:inherit;background:#fff;color:var(--deep);border:1px solid #b99bd4;border-radius:8px;padding:7px 11px}.explorer-filters select{min-width:160px}.explorer-filters button{cursor:pointer}.explorer-filters button:hover{background:var(--pale)}.explorer-filters :focus-visible{outline:3px solid var(--purple);outline-offset:2px}#explorer-count,#explorer-empty{color:var(--muted)}#explorer-results tfoot{background:var(--pale);font-weight:700}#explorer-results tfoot th,#explorer-results tfoot td{color:var(--deep);border-top:2px solid #b99bd4}.focus-section .line-grid{margin-top:14px}.focus-section table td:last-child{text-align:left}
+.focus-intro p{max-width:90ch}.focus-list{display:grid;gap:14px;margin:0 0 16px}.focus-card{margin:0;border-left:4px solid #a04bfc}
+.focus-card h3{font-size:21px;margin:0}.focus-card code{font:inherit;letter-spacing:.03em}.focus-rank{color:#753a9c;font-size:15px;margin-right:8px}
+.focus-meta{color:var(--muted);margin:4px 0 0}.focus-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.focus-metric{background:var(--pale);border-radius:8px;padding:8px 11px;min-width:0;font-variant-numeric:tabular-nums}
+.focus-metric strong,.focus-metric span{display:block}.focus-metric strong{color:var(--deep);font-size:17px}.focus-metric span{font-size:13px}
+.focus-notes{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:0}.focus-notes div{border-top:1px solid var(--border);padding-top:7px}
+.focus-notes dt{font-weight:700;color:var(--deep)}.focus-notes dd{margin:2px 0 0}.focus-method{color:var(--muted);font-size:13px}
+@media(max-width:680px){.focus-metrics,.focus-notes{grid-template-columns:1fr}}
+
+.focus-banner{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(112deg,#3f0069,#67249b);color:#fff;padding:24px 28px;border:0}
+.focus-banner h2{color:inherit;margin:0;font-size:25px}.focus-banner p{margin:5px 0 0;color:#f0defb}.focus-banner .focus-count{display:flex;align-items:baseline;gap:8px;white-space:nowrap;margin:0}.focus-count strong{font-size:clamp(36px,6vw,62px);line-height:1;color:white}.focus-count span{font-weight:700}
+.focus-list details.focus-card{padding:0;background:white}.focus-summary{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) 14px;align-items:center;gap:14px;padding:13px 16px;list-style:none;border-radius:8px;cursor:pointer}.focus-summary::-webkit-details-marker{display:none}.focus-summary:hover{background:#faf6ff}.focus-summary .focus-rank{margin:0;background:var(--pale);padding:4px 7px;border-radius:6px;font-weight:700}
+.focus-identity strong,.focus-identity small{display:block}.focus-identity strong{font-variant-numeric:tabular-nums;font-size:17px;color:var(--deep)}.focus-identity small{line-height:1.45}.focus-reason{color:#5a2b82;font-weight:700;font-size:14px}.focus-chevron{border-right:2px solid #6d3990;border-bottom:2px solid #6d3990;width:8px;height:8px;transform:rotate(45deg);justify-self:center}details[open] .focus-chevron{transform:rotate(225deg)}.focus-detail{padding:0 16px 14px;border-top:1px solid var(--border)}
+@media(max-width:680px){.focus-banner{padding:15px;gap:10px}.focus-banner h2{font-size:19px}.focus-banner p{font-size:13px}.focus-count span{font-size:12px}.focus-summary{grid-template-columns:auto minmax(0,1fr) 14px;gap:5px 9px;padding:10px}.focus-reason{grid-column:2;grid-row:2}.focus-chevron{grid-column:3;grid-row:1 / span 2}.focus-rank{align-self:start}}
+</style></head>
+<body><main id="report"></main>
+<script type="application/json" id="report-data">{"client": "示例品牌（合成数据）", "title": "4 月广告复盘", "prior": "2026-03-01 至 2026-03-31", "current": "2026-04-01 至 2026-04-30", "currency": "USD", "conclusions": ["本期广告花费增加 $135。增投主要集中在美国站水槽保护垫，花费增加 $160，其余品线合计减少 $25。", "ACOS 从 21.97% 升至 23.74%。CPC 上升、转化率下降，广告客单价上升抵消了部分影响。"], "account": [{"spend": 760, "sales": 3460, "clicks": 1710, "orders": 173, "totalSales": 8100}, {"spend": 895, "sales": 3770, "clicks": 1885, "orders": 180, "totalSales": 8760}], "sites": [{"id": "us", "name": "美国站", "metrics": [{"spend": 520, "sales": 2500, "clicks": 1100, "orders": 125}, {"spend": 660, "sales": 2750, "clicks": 1280, "orders": 129}], "stores": [{"name": "示例美国店", "metrics": [{"spend": 520, "sales": 2500, "clicks": 1100, "orders": 125}, {"spend": 660, "sales": 2750, "clicks": 1280, "orders": 129}], "lines": [{"name": "水槽保护垫", "metrics": [{"spend": 400, "sales": 2000, "clicks": 800, "orders": 100}, {"spend": 560, "sales": 2200, "clicks": 1000, "orders": 102}], "types": [{"name": "SP-精准", "metrics": [{"spend": 230, "sales": 1200, "clicks": 430, "orders": 62}, {"spend": 350, "sales": 1440, "clicks": 610, "orders": 64}]}, {"name": "SP-商品定向", "metrics": [{"spend": 115, "sales": 560, "clicks": 270, "orders": 28}, {"spend": 155, "sales": 560, "clicks": 280, "orders": 29}]}, {"name": "SD", "metrics": [{"spend": 55, "sales": 240, "clicks": 100, "orders": 10}, {"spend": 55, "sales": 200, "clicks": 110, "orders": 9}]}]}, {"name": "置物架", "metrics": [{"spend": 120, "sales": 500, "clicks": 300, "orders": 25}, {"spend": 100, "sales": 550, "clicks": 280, "orders": 27}], "types": [{"name": "SP-自动", "metrics": [{"spend": 120, "sales": 500, "clicks": 300, "orders": 25}, {"spend": 100, "sales": 550, "clicks": 280, "orders": 27}]}]}]}]}, {"id": "ca", "name": "加拿大站", "metrics": [{"spend": 240, "sales": 960, "clicks": 610, "orders": 48}, {"spend": 235, "sales": 1020, "clicks": 605, "orders": 51}], "stores": [{"name": "示例加拿大店", "metrics": [{"spend": 240, "sales": 960, "clicks": 610, "orders": 48}, {"spend": 235, "sales": 1020, "clicks": 605, "orders": 51}], "lines": [{"name": "水槽保护垫", "metrics": [{"spend": 150, "sales": 600, "clicks": 360, "orders": 30}, {"spend": 160, "sales": 680, "clicks": 400, "orders": 34}], "types": [{"name": "SP-词组", "metrics": [{"spend": 150, "sales": 600, "clicks": 360, "orders": 30}, {"spend": 160, "sales": 680, "clicks": 400, "orders": 34}]}]}, {"name": "厨房布巾", "metrics": [{"spend": 90, "sales": 360, "clicks": 250, "orders": 18}, {"spend": 75, "sales": 340, "clicks": 205, "orders": 17}], "types": [{"name": "SP-宽泛", "metrics": [{"spend": 90, "sales": 360, "clicks": 250, "orders": 18}, {"spend": 75, "sales": 340, "clicks": 205, "orders": 17}]}]}]}]}], "parents": [{"asin": "DEMO000002", "site": "us", "store": "示例美国店", "line": "置物架", "metrics": [{"spend": 40, "sales": 200, "clicks": 100, "orders": 10}, {"spend": 45, "sales": 180, "clicks": 115, "orders": 8}], "headline": "品线改善，部分商品转化下降", "reason": "品线整体 ACOS 从 24.00% 降至 18.18%，但该父体 ACOS 从 20.00% 升至 25.00%，广告订单从 10 降至 8。", "next": "检查原先出单的搜索词和商品定向，两期点击及订单是否出现背离。"}, {"asin": "DEMO000001", "site": "us", "store": "示例美国店", "line": "水槽保护垫", "metrics": [{"spend": 250, "sales": 1250, "clicks": 500, "orders": 63}, {"spend": 380, "sales": 1400, "clicks": 660, "orders": 66}], "headline": "主力商品增投，效率下滑", "reason": "花费增加 $130，ACOS 从 20.00% 升至 27.14%。CPC 上升，同时转化率从 12.60% 降至 10.00%。", "next": "核对增量主要来自哪些活动、广告位和定向，区分流量变贵与低转化流量占比上升。"}, {"asin": "DEMO000003", "site": "ca", "store": "示例加拿大店", "line": "水槽保护垫", "metrics": [{"spend": 80, "sales": 300, "clicks": 180, "orders": 15}, {"spend": 85, "sales": 360, "clicks": 200, "orders": 18}]}], "notes": ["本页全部为合成数据，商品标识均为虚构。示例按两个自然月对比，3 月 31 天、4 月 30 天。金额均为模拟 USD。"]}</script>
+<script>const data = JSON.parse(document.getElementById('report-data').textContent);
+const root = document.getElementById('report');
+const sites = data.sites || [];
+const siteNames = new Map(sites.map(site => [site.id, site.name]));
+const esc = value => String(value ?? '').replace(/[&<>"']/g, char =>
+  ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[char]);
+const money = new Intl.NumberFormat('en-US', {
+  style: 'currency', currency: data.currency, minimumFractionDigits: 2, maximumFractionDigits: 2
+});
+const number = new Intl.NumberFormat('en-US');
+const percent = new Intl.NumberFormat('zh-CN', {
+  style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2
+});
+const finite = Number.isFinite;
+const divide = (top, bottom) => finite(top) && finite(bottom) && bottom > 0 ? top / bottom : null;
+const fields = {
+  spend: ['广告花费', money, 0], sales: ['广告销售额', money, 1],
+  orders: ['广告订单', number, 1], clicks: ['点击', number, 0],
+  acos: ['ACOS', percent, -1], tacos: ['TACOS', percent, -1],
+  cpc: ['CPC', money, -1], cvr: ['转化率', percent, 1], aov: ['广告客单价', money, 1],
+};
+const tableFields = ['spend', 'sales', 'clicks', 'orders', 'cpc', 'cvr', 'acos'];
+const baseFields = ['spend', 'sales', 'clicks', 'orders'];
+
+function metrics(row) {
+  if (!row) return {};
+  return {
+    ...row, acos: divide(row.spend, row.sales), tacos: divide(row.tacosSpend ?? row.spend, row.totalSales),
+    cpc: divide(row.spend, row.clicks), cvr: divide(row.orders, row.clicks), aov: divide(row.sales, row.orders)
+  };
+}
+
+function sumPairs(pairs) {
+  return [0, 1].map(period => {
+    const rows = pairs.map(pair => pair?.[period]).filter(Boolean);
+    if (!rows.length) return null;
+    return Object.fromEntries(baseFields.map(key => [
+      key, rows.every(row => finite(row[key])) ? rows.reduce((sum, row) => sum + row[key], 0) : null
+    ]));
+  });
+}
+
+const fmt = (key, value) => finite(value) ? fields[key][1].format(value) : '—';
+const paired = (pair, key) => pair.map(row => fmt(key, metrics(row)[key])).join(' → ');
+const direction = (key, delta) => {
+  const change = fields[key][2] * Math.sign(delta);
+  return change > 0 ? 'good' : change < 0 ? 'bad' : 'neutral';
+};
+
+function change(pair, key, percentagePoints = false) {
+  const [prior, current] = pair.map(row => metrics(row)[key]);
+  if (!finite(prior) || !finite(current) || (!percentagePoints && prior <= 0)) {
+    return ['—', 'neutral'];
+  }
+  const delta = current - prior;
+  if (Math.abs(delta) < 1e-10) return ['持平', 'neutral'];
+  const size = percentagePoints ? (Math.abs(delta) * 100).toFixed(2) + ' 个百分点' : percent.format(Math.abs(delta) / prior);
+  return [(delta > 0 ? '↑ ' : '↓ ') + size, direction(key, delta)];
+}
+
+function kpi(key) {
+  const [delta, tone] = change(data.account, key);
+  const current = metrics(data.account[1])[key];
+  return '<article><small>' + fields[key][0] + '</small><strong>' + fmt(key, current) +
+    '</strong><span class="kpi-change ' + tone + '">环比 ' + delta + '</span></article>';
+}
+
+function cells(pair, keys) {
+  return keys.map(key => '<td>' + paired(pair, key) + '</td>').join('');
+}
+
+function table(rows, label, keys = tableFields) {
+  if (!rows.length) return '<p class="scope-note">暂无对应数据。</p>';
+  return '<div class="scroll" tabindex="0" role="region" aria-label="' + esc(label) +
+    '"><table><thead><tr><th scope="col">' + esc(label) + '</th>' +
+    keys.map(key => '<th scope="col">' + fields[key][0] + '</th>').join('') +
+    '</tr></thead><tbody>' + rows.map(row => '<tr><th scope="row">' + esc(row.name) + '</th>' +
+    cells(row.metrics, keys) + '</tr>').join('') + '</tbody></table></div>';
+}
+
+function summarize(rows, key) {
+  const groups = new Map();
+  for (const row of rows) {
+    const label = key(row);
+    if (!groups.has(label)) groups.set(label, []);
+    groups.get(label).push(row.metrics);
+  }
+  return [...groups].map(([name, pairs]) => ({name, metrics: sumPairs(pairs)}));
+}
+
+const lineRows = sites.flatMap(site => (site.stores || []).flatMap(store =>
+  (store.lines || []).map(line => ({...line, site: site.id}))));
+const lineTotals = summarize(lineRows, row => row.name);
+const matrix = sites.flatMap(site => summarize(lineRows.filter(row => row.site === site.id), row => row.name)
+  .map(line => ({...line, site: site.id})));
+
+function explorer() {
+  const options = list => list.map(([value, name]) =>
+    '<option value="' + esc(value) + '">' + esc(name) + '</option>').join('');
+  return '<section><h2>国家站点 × 产品线</h2><div class="explorer-filters">' +
+    '<label>国家站点<select id="filter-site"><option value="">全部站点</option>' +
+    options([...siteNames]) + '</select></label><label>产品线<select id="filter-line">' +
+    '<option value="">全部产品线</option>' + options(lineTotals.map(line => [line.name, line.name])) +
+    '</select></label><button type="button" id="filter-clear">清空筛选</button></div>' +
+    '<p id="explorer-count" aria-live="polite"></p><div id="explorer-results"></div></section>';
+}
+
+function showFiltered() {
+  const site = document.getElementById('filter-site').value;
+  const line = document.getElementById('filter-line').value;
+  const filtered = matrix.filter(row => (!site || row.site === site) && (!line || row.name === line));
+  const rows = filtered.map(row => ({...row, name: siteNames.get(row.site) + ' · ' + row.name}));
+  document.getElementById('explorer-count').textContent = filtered.length ? '共 ' + filtered.length + ' 条' : '当前筛选无数据';
+  const result = document.getElementById('explorer-results');
+  result.innerHTML = rows.length ? table(rows, '站点 · 产品线') : '';
+  if (rows.length) {
+    result.querySelector('table').insertAdjacentHTML('beforeend',
+      '<tfoot><tr><th scope="row">总计</th>' + cells(sumPairs(rows.map(row => row.metrics)), tableFields) + '</tr></tfoot>');
+  }
+}
+
+function lineCard(line) {
+  const cards = ['spend', 'orders', 'cvr', 'acos'].map(key => {
+    const [delta, tone] = change(line.metrics, key, key === 'cvr' || key === 'acos');
+    const [prior, current] = line.metrics.map(row => metrics(row)[key]);
+    const scale = Math.max(prior ?? 0, current ?? 0);
+    const comparison = scale > 0 && finite(prior) && finite(current) ?
+      '<div class="bars" aria-hidden="true"><i style="width:' + (100 * prior / scale) +
+      '%"></i><i style="width:' + (100 * current / scale) + '%"></i></div>' : '';
+    return '<span class="metric"><small>' + fields[key][0] + '</small><strong>' +
+      fmt(key, current) + '</strong><span>上期 ' + fmt(key, prior) + ' · </span><span class="delta ' +
+      tone + '">' + delta + '</span>' + comparison + '</span>';
+  }).join('');
+  const note = line.note ? '<p class="scope-note">' + esc(line.note) + '</p>' : '';
+  return '<details><summary><b>' + esc(line.name) + '</b><span class="mini">' +
+    cards + '</span></summary>' + table(line.types || [], '广告类型') + note + '</details>';
+}
+
+function focusPage() {
+  const ranked = (data.parents || []).map(parent => {
+    const [prior, current] = parent.metrics.map(metrics);
+    const impact = finite(prior.acos) && finite(current.acos) && current.acos > prior.acos ?
+      current.spend - current.sales * prior.acos : 0;
+    return {...parent, impact};
+  }).filter(parent => parent.impact > 1e-9).sort((a, b) => b.impact - a.impact)
+    .slice(0, data.focusLimit ?? 6);
+  const cards = ranked.map((parent, index) => {
+    const measures = ['spend', 'sales', 'orders', 'cpc', 'cvr', 'aov', 'acos'].map(key => {
+      const [delta, tone] = change(parent.metrics, key, key === 'cvr' || key === 'acos');
+      return '<div class="focus-metric"><small>' + fields[key][0] + '</small><strong>' +
+        paired(parent.metrics, key) + '</strong><span class="' + tone + '">' + delta + '</span></div>';
+    }).join('');
+    return '<details class="focus-card"><summary class="focus-summary"><span class="focus-rank">' +
+      String(index + 1).padStart(2, '0') + '</span><span class="focus-identity"><strong>' +
+      esc(parent.asin) + '</strong><small>' + esc([siteNames.get(parent.site), parent.store, parent.line].join(' · ')) +
+      '</small></span><span class="focus-reason">' + esc(parent.headline || '广告效率下滑') +
+      '</span><span class="focus-chevron" aria-hidden="true"></span></summary><div class="focus-detail">' +
+      '<div class="focus-metrics">' + measures + '</div><p>按上期效率测算的花费差额 ' +
+      money.format(parent.impact) + '</p><dl class="focus-notes"><div><dt>入选原因</dt><dd>' +
+      esc(parent.reason) + '</dd></div><div><dt>后续要看</dt><dd>' + esc(parent.next) +
+      '</dd></div></dl></div></details>';
+  }).join('');
+  return '<div id="focus" hidden><section class="focus-banner"><div><h2>本期优先关注的父 ASIN</h2>' +
+    '<p>展开卡片查看两期数据和排查方向。</p></div><div class="focus-count"><strong>' +
+    ranked.length + '</strong><span>个父 ASIN</span></div></section>' +
+    (cards ? '<div class="focus-list">' + cards + '</div>' : '<section>本期暂无符合排序条件的父 ASIN。</section>') +
+    '<section class="focus-method"><h3>筛选口径</h3><p>按站点、店铺和父 ASIN 汇总推广商品。对 ACOS 上升的可比父体，' +
+    '以本期花费减去「本期广告销售额 × 上期 ACOS」排序。差额为相对上期效率的测算。</p>' +
+    (data.focusNote ? '<p>' + esc(data.focusNote) + '</p>' : '') + '</section></div>';
+}
+
+const pages = [['overview', '大盘总览'], ...siteNames, ['focus', '重点关注']];
+const title = data.client + '｜' + (data.title || '广告复盘');
+document.title = title;
+root.innerHTML = '<header><h1>' + esc(title) + '</h1><p>上期 ' + esc(data.prior) +
+  '　·　本期 ' + esc(data.current) + '　·　币种 ' + esc(data.currency) + '</p></header>' +
+  '<nav aria-label="报告页面">' + pages.map(([id, label]) => '<a href="#' +
+  esc(id) + '">' + esc(label) + '</a>').join('') + '</nav>' +
+  '<div id="overview"><section class="call"><h2>本期重点</h2><ul>' +
+  (data.conclusions || []).map(item => '<li>' + esc(item) + '</li>').join('') + '</ul></section>' +
+  '<section><h2>大盘结果</h2><div class="grid">' + ['spend', 'sales', 'acos', 'tacos', 'orders'].map(kpi).join('') +
+  '</div></section><section><h2>大盘效率</h2><div class="grid">' + ['cpc', 'cvr', 'aov'].map(kpi).join('') +
+  '</div></section><section><h2>国家站点数据变化</h2>' + table(sites, '国家站点') +
+  '</section><section><h2>产品线数据变化</h2>' + table(lineTotals, '产品线') + '</section>' +
+  explorer() + '</div>' + sites.map(site => '<div id="' + esc(site.id) + '" hidden><section><h2>' +
+    esc(site.name) + '</h2>' + table(site.stores || [], '店铺') + '</section>' +
+    (site.stores || []).map(store => '<section><h3>' + esc(store.name) + '</h3>' +
+      ((store.lines || []).length ? '<div class="line-grid">' +
+        store.lines.map(lineCard).join('') + '</div>' : '<p class="scope-note">暂无可展示的品线数据。</p>') +
+      '</section>').join('') + '</div>').join('') + focusPage() + '<footer>' +
+  (data.notes || []).map(note => '<p>' + esc(note) + '</p>').join('') + '</footer>';
+
+function showPage() {
+  const requested = location.hash.slice(1);
+  const active = pages.some(([id]) => id === requested) ? requested : 'overview';
+  for (const [id] of pages) {
+    document.getElementById(id).hidden = id !== active;
+    const link = document.querySelector('nav a[href="#' + id + '"]');
+    if (id === active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+}
+for (const id of ['filter-site', 'filter-line']) {
+  document.getElementById(id).addEventListener('change', showFiltered);
+}
+document.getElementById('filter-clear').addEventListener('click', () => {
+  document.getElementById('filter-site').value = '';
+  document.getElementById('filter-line').value = '';
+  showFiltered();
+});
+addEventListener('hashchange', showPage);
+showPage();
+showFiltered();
+</script>
+</body></html>
